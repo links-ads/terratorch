@@ -29,7 +29,6 @@ class Clay1_5ModelFactory(ModelFactory):
         task: str,
         backbone: str | nn.Module,
         decoder: str | nn.Module,
-        in_channels: int,
         bands: list[int] = [],
         num_classes: int | None = None,
         pretrained: bool = True,  # noqa: FBT001, FBT002
