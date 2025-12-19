@@ -6,6 +6,7 @@ import timm
 import torch
 import torch.nn.functional as F
 from einops import rearrange, reduce, repeat
+from timm.models import FeatureInfo
 from torch import nn
 from torchvision.transforms import v2
 
@@ -571,6 +572,14 @@ class ClayMAEBackbone(nn.Module):
             mlp_dim=int(dim * mlp_ratio),
             fused_attn=True,
         )
+
+        # Mirror timm backbones: expose feature metadata for decoder construction
+        self.feature_info = FeatureInfo([{
+            "num_chs": dim,
+            "reduction": patch_size,
+            "module": "transformer"
+        }],
+                                        out_indices=(0, ))
 
     def to_patch_embed(self, cube, waves):
         """Split the input cube into patches & create embeddings per patch"""
