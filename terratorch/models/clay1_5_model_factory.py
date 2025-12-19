@@ -45,13 +45,18 @@ class Clay1_5ModelFactory(ModelFactory):
         #     message = "clay v1.5 not installed, please use pip install claimodel"
         #     logging.getLogger("terratorch").debug(message)
         #    raise Exception(message)
+
+        # TODO: PRETRAINED???????
+        # Download pretrained weights if specified from HuggingFace
+        # https://huggingface.co/made-with-clay/Clay/tree/main/v1.5
+
         backbone_kwargs, kwargs = extract_prefix_keys(kwargs, "backbone_")
 
         padding = backbone_kwargs.get("padding", "reflect")
         kwargs["metadata"] = Box(kwargs["metadata"])
         patch_size = kwargs.get("patch_size")
         # return ModelWrapper(batch_size, bands, platform, ClayMAE(**kwargs))
-        encoder = ClayMAEBackbone(
+        backbone = ClayMAEBackbone(
             patch_size=patch_size,
             shuffle=backbone_kwargs.get("shuffle"),
             dim=backbone_kwargs.get("dim"),
@@ -104,7 +109,7 @@ class Clay1_5ModelFactory(ModelFactory):
 
         return _build_appropriate_model(
             task,
-            encoder,
+            backbone,
             decoder,
             head_kwargs,
             prepare_features_for_image_model,
