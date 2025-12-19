@@ -575,9 +575,7 @@ class ClayMAEBackbone(nn.Module):
 
         # Mirror timm backbones: expose feature metadata for decoder construction
         self.feature_info = FeatureInfo([{
-            "num_chs": dim,
-            "reduction": patch_size,
-            "module": "transformer"
+            "embed_dim": dim
         }],
                                         out_indices=(0, ))
 
